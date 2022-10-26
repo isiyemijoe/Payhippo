@@ -1,0 +1,24 @@
+{
+    "instantLoans": "Instant loans",
+    "instantLoanText": "Skip the delay that comes with accessing business loans and get access to business loans in 2-4 hours.",
+    "login": "Login",
+    "createAccount": "Create Account",
+    "noCollateral":"No Collateral",
+    "noCollateralText":"You don't need to be a landowner to get loans.",
+    "seamlessProcess": "Seamless Process",
+    "seamlessProcessText": "We’ve created the most seamless small business loan process for your business.",
+    "welcome":"Welcome",
+    "signInToContinue":"Sign in to continue",
+    "continueText":"Continue",
+    "welcomeBack":"Welcome Back",
+    "notUser": "No **{user}**.",
+        "@notUser": {
+            "placeholders": {
+                "user": {}
+            }
+        },
+    "signOut":"Sign out",
+    "availableOnWeb":"Available on Web",
+    "quickLoans": "Get access to quick loans from your browser"
+
+}
