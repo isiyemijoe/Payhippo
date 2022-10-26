@@ -14,6 +14,10 @@ import 'package:flutter/services.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/hippo_full_logo.png
+  AssetGenImage get hippoFullLogo =>
+      const AssetGenImage('assets/images/hippo_full_logo.png');
+
   /// File path: assets/images/hippo_logo.png
   AssetGenImage get hippoLogo =>
       const AssetGenImage('assets/images/hippo_logo.png');
@@ -23,11 +27,14 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/hippo_logo_text.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [hippoLogo, hippoLogoText];
+  List<AssetGenImage> get values => [hippoFullLogo, hippoLogo, hippoLogoText];
 }
 
 class $AssetsVectorsGen {
   const $AssetsVectorsGen();
+
+  /// File path: assets/vectors/caret.svg
+  SvgGenImage get caret => const SvgGenImage('assets/vectors/caret.svg');
 
   /// File path: assets/vectors/hippo_logo.svg
   SvgGenImage get hippoLogo =>
@@ -69,6 +76,9 @@ class $AssetsVectorsGen {
   SvgGenImage get instantLoad =>
       const SvgGenImage('assets/vectors/instant_load.svg');
 
+  /// File path: assets/vectors/naira.svg
+  SvgGenImage get naira => const SvgGenImage('assets/vectors/naira.svg');
+
   /// File path: assets/vectors/no_collateral.svg
   SvgGenImage get noCollateral =>
       const SvgGenImage('assets/vectors/no_collateral.svg');
@@ -79,6 +89,7 @@ class $AssetsVectorsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+        caret,
         hippoLogo,
         hippoLogoText,
         icCalendar,
@@ -90,6 +101,7 @@ class $AssetsVectorsGen {
         icUser,
         icWeb,
         instantLoad,
+        naira,
         noCollateral,
         seamlessProcess
       ];

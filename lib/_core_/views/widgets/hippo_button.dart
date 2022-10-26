@@ -278,8 +278,13 @@ class _AppStateFulButton extends HippoButton {
                   top: 16,
                   bottom: 16,
                   child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: AppColors.blue0,
+                      ? const SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
                         )
                       : const SizedBox.shrink())
             ],

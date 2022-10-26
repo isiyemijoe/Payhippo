@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:payhippo/_core_/utils/size_congig.dart';
+import 'package:payhippo/_core_/utils/size_config.dart';
 import 'package:payhippo/_core_/views/animations/fade_in_animation.dart';
 import 'package:payhippo/_core_/views/app_route.dart';
 import 'package:payhippo/_core_/views/styles/app_themes.dart';
@@ -37,7 +35,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: const EdgeInsets.only(top: 64),
+        padding: const EdgeInsets.only(
+          top: 64,
+        ),
         decoration: BoxDecoration(
           color: const Color(0XFF0357EE).withOpacity(0.05),
         ),
@@ -69,18 +69,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 41, bottom: 41),
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, -5),
-                      blurRadius: 23,
-                      color: const Color(0XFF003FAF).withOpacity(0.05),
-                    )
-                  ]),
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, -5),
+                    blurRadius: 23,
+                    color: const Color(0XFF003FAF).withOpacity(0.05),
+                  )
+                ],
+              ),
               child: Column(
                 children: [
                   SizedBox(
@@ -88,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: HippoButton(
                         text: context.l10n.login,
                         onClick: () =>
-                            Navigator.of(context).pushNamed(AppRoute.signup)),
+                            Navigator.of(context).pushNamed(AppRoute.login)),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -97,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         text: context.l10n.createAccount,
                         buttonStyle: AppThemes.primaryLightButtonStyle,
                         onClick: () =>
-                            Navigator.of(context).pushNamed(AppRoute.login)),
+                            Navigator.of(context).pushNamed(AppRoute.signup)),
                   ),
                 ],
               ),
@@ -150,41 +151,44 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          data.imageUrl,
-          width: imageWidth,
-          height: imageHeight,
-        ),
-        const SizedBox(height: 30),
-        FadeInAnimations(
-          delay: 0.5,
-          child: Text(
-            data.title,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: SizeConfig.blockSizeHorizontal * 6.15,
-                fontWeight: FontWeight.w700),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            data.imageUrl,
+            width: imageWidth,
+            height: imageHeight,
           ),
-        ),
-        const SizedBox(height: 8),
-        FadeInAnimations(
-          delay: 0.6,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          const SizedBox(height: 30),
+          FadeInAnimations(
+            delay: 0.5,
             child: Text(
-              data.description,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
+              data.title,
+              style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  fontSize: SizeConfig.blockSizeHorizontal * 6.15,
+                  fontWeight: FontWeight.w700),
             ),
           ),
-        ),
-      ],
+          const SizedBox(height: 8),
+          FadeInAnimations(
+            delay: 0.6,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                data.description,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

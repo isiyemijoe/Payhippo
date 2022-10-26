@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:payhippo/_core_/data/di.dart';
-import 'package:payhippo/_core_/utils/size_congig.dart';
+import 'package:payhippo/_core_/utils/size_config.dart';
 import 'package:payhippo/_core_/views/animations/fade_in_animation.dart';
 import 'package:payhippo/_core_/views/app_route.dart';
 import 'package:payhippo/_core_/views/route_observer.dart';
