@@ -23,7 +23,7 @@ class LocalStorageServiceImpl extends LocalStorageService {
   static SharedPreferences? _prefs;
   static LocalStorageServiceImpl? _instance;
 
-  static Future<LocalStorageService> getInstance() async {
+  static Future<LocalStorageServiceImpl> getInstance() async {
     _instance ??= LocalStorageServiceImpl();
 
     _prefs ??= await SharedPreferences.getInstance();
@@ -89,13 +89,14 @@ class LocalStorageServiceImpl extends LocalStorageService {
   }
 
   Future<bool> saveLoggedInUser(User data) {
-    return saveData(LocalStorageKeys.loggedInUserKey, data);
+    return saveData(LocalStorageKeys.loggedInUserKey, data.toJson());
   }
 
   User? getLoggedInUser() {
     final data =
         getData(LocalStorageKeys.loggedInUserKey) as Map<String, dynamic>?;
-    return User.fromJson(data ?? <String, dynamic>{});
+    if (data == null) return null;
+    return User.fromJson(data);
   }
 
   Future<bool> deleteLoggedInUser() {
@@ -121,13 +122,23 @@ class LocalStorageServiceImpl extends LocalStorageService {
       getData(LocalStorageKeys.enableFingerPrintKey) as bool?;
 
   Future<bool> setAppFirstLaunch(bool data) {
-    return saveData(LocalStorageKeys.enableFingerPrintKey, data);
+    return saveData(LocalStorageKeys.isUserFirstLaunchKey, data);
+  }
+
+  Future<bool> setIsVerified({required bool state}) async {
+    var user = getLoggedInUser();
+
+    if (user == null) return false;
+    user = user.copyWith(isVerified: state);
+    return saveLoggedInUser(user);
   }
 
   bool? getAppFirstLaunch() {
-    final data = getData(LocalStorageKeys.enableFingerPrintKey) as bool?;
+    final data = getData(LocalStorageKeys.isUserFirstLaunchKey) as bool?;
     return data;
   }
+
+  void clear() => _prefs?.clear();
 }
 
 class LocalStorageKeys {

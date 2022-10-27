@@ -53,6 +53,12 @@ dependencies:
   auto_size_text: ^3.0.0
   simple_animations: ^3.1.1
   supercharged: ^2.1.1
+  cron: ^0.5.0
+  equatable: ^2.0.5
+  pinput: ^2.2.16
+  copy_with_extension_gen: ^4.0.4
+  flutter_secure_storage: ^6.0.0
+  local_auth: ^2.1.2
 
 
 

@@ -1,11 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:payhippo/_core_/data/authentication_manager.dart';
+import 'package:payhippo/_core_/data/di.dart';
+import 'package:payhippo/_core_/data/remote/composite_disposable_widget.dart';
 import 'package:payhippo/_core_/utils/size_config.dart';
+import 'package:payhippo/_core_/views/app_route.dart';
+import 'package:payhippo/_core_/views/route_observer.dart';
 import 'package:payhippo/_core_/views/styles/app_colors.dart';
 import 'package:payhippo/_core_/views/widgets/hippo_button.dart';
 import 'package:payhippo/_core_/views/widgets/hippo_textfield.dart';
 import 'package:payhippo/gen/assets.gen.dart';
 import 'package:payhippo/l10n/l10n.dart';
+import 'package:payhippo/modules/authentication/login/viewmodels/login_viewmodel.dart';
+import 'package:payhippo/modules/authentication/login/views/observers/login_observer.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,7 +22,27 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with CompositeDisposableWidget {
+  late final LoginViewModel _viewmodel;
+  late final LoginResponseObserver _observer;
+  final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    _viewmodel = context.read<LoginViewModel>();
+    _observer = LoginResponseObserver(context: context, viewModel: _viewmodel);
+    _restoreState();
+    super.initState();
+  }
+
+  void _restoreState() {
+    if (_viewmodel.phoneNumber.isNotEmpty) {
+      _textController.text = _viewmodel.phoneNumber;
+      _viewmodel.formModel.onPhoneChanged(_viewmodel.phoneNumber);
+    }
+  }
+
   Widget get hippoLogo => Assets.images.hippoFullLogo
       .image(width: SizeConfig.blockSizeVertical * 15);
 
@@ -22,19 +50,27 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.l10n.welcome,
-            style: context.textTheme.bodyMedium!
-                .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
+            _viewmodel.isLoggedIn
+                ? context.l10n.welcomeBack
+                : context.l10n.welcome,
+            style: context.textTheme.bodyMedium!.copyWith(
+                fontSize: _viewmodel.isLoggedIn ? 18 : 25,
+                fontWeight:
+                    _viewmodel.isLoggedIn ? FontWeight.w400 : FontWeight.bold),
           ),
           const SizedBox(
             height: 8,
           ),
           AutoSizeText(
-            context.l10n.signInToContinue,
+            _viewmodel.isLoggedIn
+                ? _viewmodel.firstName
+                : context.l10n.signInToContinue,
             minFontSize: 5,
             maxLines: 2,
-            style: context.textTheme.bodyMedium!
-                .copyWith(fontSize: 16, fontWeight: FontWeight.w300),
+            style: context.textTheme.bodyMedium!.copyWith(
+                fontSize: _viewmodel.isLoggedIn ? 25 : 15,
+                fontWeight:
+                    _viewmodel.isLoggedIn ? FontWeight.w700 : FontWeight.w300),
           ),
         ],
       );
@@ -58,23 +94,84 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const HippoTextField.phone(
-                  valueStream: Stream.empty(),
+                HippoTextField.phone(
+                  controller: _textController,
+                  valueStream: _viewmodel.formModel.phoneStream,
                   hintText: '9013957515',
+                  onChanged: _viewmodel.formModel.onPhoneChanged,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                HippoButton.stream(
-                    state: Stream.empty(),
-                    text: context.l10n.continueText,
-                    onClick: () {})
+                Row(
+                  children: [
+                    Expanded(
+                      child: HippoButton.stream(
+                          state: _viewmodel.formModel.isPageValid,
+                          isLoading: _viewmodel.formModel.isLogginIn,
+                          text: context.l10n.continueText,
+                          onClick: () {
+                            _viewmodel
+                                .login()
+                                .listen(_observer.observe)
+                                .disposedBy(this);
+                          }),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    if (_viewmodel.canUseBiometrics)
+                      Container(
+                        height: 56,
+                        width: 56,
+                        decoration: const BoxDecoration(
+                          color: AppColors.blue5,
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        child: IconButton(
+                          iconSize: 32,
+                          color: AppColors.blue0,
+                          onPressed: () {
+                            _viewmodel
+                                .loginWithBiometrics()
+                                .listen(_observer.observe)
+                                .disposedBy(this);
+                          },
+                          icon: Assets.vectors.icFingerprint.svg(),
+                        ),
+                      )
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                if (_viewmodel.isLoggedIn)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${context.l10n.notUser(_viewmodel.firstName)}?'),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, AppRoute.onboarding, (route) => false);
+                          locator.get<AuthenticationManager>().clearUserCache();
+                        },
+                        child: Text(context.l10n.signOut),
+                      )
+                    ],
+                  )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    disposeAll();
+    super.dispose();
   }
 }
 

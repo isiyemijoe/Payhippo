@@ -20,6 +20,7 @@ class HippoDropdownTextField<T> extends StatelessWidget {
     required this.options,
     required this.getLabel,
     required this.onChanged,
+    this.prefixIcon,
     this.value,
   });
 
@@ -28,11 +29,15 @@ class HippoDropdownTextField<T> extends StatelessWidget {
   final T? value;
   final String Function(T) getLabel;
   final void Function(T) onChanged;
+  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField<T>(
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+        ),
         items: options.map((T value) {
           return DropdownMenuItem(
             value: value,
@@ -42,7 +47,10 @@ class HippoDropdownTextField<T> extends StatelessWidget {
         onChanged: (newValue) {
           onChanged.call(newValue as T);
         },
-        hint: Text(hintText),
+        hint: Text(
+          hintText,
+          style: context.textTheme.caption?.copyWith(fontSize: 14),
+        ),
         value: value,
         isExpanded: true,
         icon: Assets.vectors.caret.svg(),
@@ -75,7 +83,7 @@ class HippoTextField extends StatelessWidget {
     this.maxLength,
     this.isPassword = false,
     this.isDense = false,
-    this.readOnly = false,
+    this.readOnly = true,
     this.showCursor = true,
     this.backgroundColor,
     this.textStyle,
@@ -170,9 +178,12 @@ class HippoTextField extends StatelessWidget {
     HippoDateChange? onDateSet,
     ValueChanged<String>? onChanged,
     String? hintText,
+    bool readOnly,
     EdgeInsets? padding,
     DateTime? startDate,
+    DateTime lastDate,
     String dateFormat,
+    String helperText,
   }) = _HippoDatePicker;
 
   const factory HippoTextField.dataRange({
@@ -240,6 +251,7 @@ class HippoTextField extends StatelessWidget {
       initialValue: initialValue,
       controller: controller ?? this.controller,
       onChanged: onChanged,
+      enabled: readOnly,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -248,7 +260,6 @@ class HippoTextField extends StatelessWidget {
       autocorrect: _isPassword ?? autocorrect,
       decoration: inputDecoration,
       showCursor: showCursor,
-      readOnly: readOnly,
       maxLength: maxLength,
       onTap: onClick,
       enableInteractiveSelection: enableInteractiveSelection,
@@ -326,7 +337,7 @@ class _HippoAmount extends HippoTextField {
     super.onChanged,
     super.backgroundColor = Colors.white,
     super.keyboardType = TextInputType.number,
-    super.readOnly = false,
+    super.readOnly = true,
     super.enableInteractiveSelection = false,
     super.showCursor,
     super.hintText,
@@ -399,14 +410,16 @@ class _HippoDatePicker extends HippoTextField {
     this.onDateSet,
     super.onChanged,
     super.hintText,
+    super.readOnly = true,
     EdgeInsets? padding,
     this.startDate,
+    this.lastDate,
+    this.helperText,
     this.dateFormat = 'yyyy/MM/dd',
   })  : _padding = padding,
         super(
           isDense: true,
           showCursor: false,
-          readOnly: true,
           enableInteractiveSelection: false,
           keyboardType: TextInputType.none,
         );
@@ -416,6 +429,8 @@ class _HippoDatePicker extends HippoTextField {
   final DateTime? startDate;
   final String dateFormat;
   final EdgeInsets? _padding;
+  final DateTime? lastDate;
+  final String? helperText;
 
   @override
   Color? get focusedBorderColor => AppColors.grey;
@@ -423,36 +438,28 @@ class _HippoDatePicker extends HippoTextField {
   @override
   EdgeInsets? get padding =>
       _padding ??
-      const EdgeInsets.symmetric(vertical: 12) + const EdgeInsets.only(left: 8);
+      const EdgeInsets.symmetric(vertical: 18) + const EdgeInsets.only(left: 8);
 
   @override
-  Widget? get suffixIcon => Padding(
-        padding: const EdgeInsetsDirectional.only(end: 8),
-        child: Assets.vectors.icCalendar.svg(
-          width: 24,
-          height: 24,
-          color: AppColors.black.withOpacity(0.2),
-        ),
+  Widget? get prefixIcon => const Icon(
+        Icons.calendar_month,
+        size: 24,
       );
-
-  @override
-  BoxConstraints? get suffixIconConstraints =>
-      const BoxConstraints(minWidth: 24, minHeight: 24);
 
   @override
   VoidCallback? get onClick => _displayDatePicker;
 
   Future<void> _displayDatePicker() async {
-    final firstDate = DateTime(1970);
-    final lastDate = DateTime.now();
+    final fDate = startDate ?? DateTime(1970);
+    final lDate = lastDate ?? DateTime.now();
 
     final date = await showDatePicker(
       context: context,
-      firstDate: firstDate,
-      lastDate: lastDate,
+      firstDate: fDate,
+      lastDate: lDate,
       currentDate: lastDate,
-      initialDate: startDate ?? lastDate,
-      helpText: '',
+      initialDate: startDate ?? lDate,
+      helpText: helperText,
       cancelText: 'Close',
       confirmText: 'Done',
       builder: (context, child) {
@@ -691,19 +698,27 @@ class _HippoPhoneField extends HippoTextField {
     super.onChanged,
     super.backgroundColor = Colors.white,
     super.keyboardType = TextInputType.number,
-    super.readOnly = false,
+    super.readOnly = true,
     super.enableInteractiveSelection = false,
     super.showCursor,
     super.hintText,
     super.initialValue,
     super.textStyle,
     super.hintTextStyle,
-  }) : super(maxLength: 10);
+  }) : super(
+          maxLength: 10,
+        );
 
   final Stream<String?> valueStream;
 
   @override
-  TextStyle? get hintTextStyle => TextStyle(fontSize: 16);
+  List<TextInputFormatter>? get inputFormatters => [
+        FilteringTextInputFormatter.deny(RegExp(r'^0+')),
+        ...super.inputFormatters ?? []
+      ];
+
+  @override
+  TextStyle? get hintTextStyle => const TextStyle(fontSize: 16);
 
   @override
   EdgeInsets? get padding => const EdgeInsets.only(left: 16, right: 14);
@@ -783,7 +798,7 @@ class _HippoStatefulField extends HippoTextField {
     super.textStyle,
     super.hintTextStyle,
     super.showCursor,
-    super.readOnly = false,
+    super.readOnly = true,
     super.maxLength,
     super.counterText,
     super.hintFontSize,

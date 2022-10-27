@@ -6,19 +6,38 @@
     "noCollateral":"No Collateral",
     "noCollateralText":"You no need get land before you get loan.",
     "seamlessProcess": "Smooth Process",
-    "seamlessProcessText": "We’ve created the most seamless small business loan process for your business.",
-    "welcome":"Welcome",
-    "signInToContinue":"Enter your phone number to continue",
+    "seamlessProcessText": "We don create the simpliest way to collect small loan for you business.",
+    "welcome":"Welcome,",
+    "signInToContinue":"Enter ya phone number to continue",
     "continueText":"Continue",
-    "welcomeBack":"Welcome Back",
-    "notUser": "Not **{user}**.",
+    "welcomeBack":"Welcome Back,",
+    "notUser": "Not {user}.",
         "@notUser": {
             "placeholders": {
                 "user": {}
             }
         },
     "signOut":"Sign out",
-    "availableOnWeb":"Available on Web",
-    "quickLoans": "Get access to quick loans from your browser"
+    "availableOnWeb":"We dey for browswe too.",
+    "quickLoans": "Get access to quick loans from your browser",
+    "personalInformation":"Personal tori",
+    "gettingOnboard":"Getting onboard dey easy, Yarn us about your self.",
+    "helpUsKnow":"Help us make we know you better.",
+    "selectLanguage":"Select Language",
+    "selectPreferedLanguage":"Choose the language wey you sabi well",
+    "firstName":"First Name",
+    "surname":"Surname",
+    "emailAddress":"Email Address",
+    "birthDate":"Birth Date",
+    "phoneNumber":"Phone number",
+    "referralCode":"Referral Code",
+    "onlyEnterReferral":"Abeg, na only code wey another person give you we go accept. Leave am empty if you no get.",
+    "enterOtp":"Enter OTP",
+    "otpSent": "Abeg enter the OTP token wey we send to your",
+    "otpBeginsWith": "Your 6 digit code begins with 4*****.",
+    "ageLimit":"You gat be 24 years or more",
+    "email":"email",
+    "and":"and",
+    "whatsapp":"whatsapp" 
 
 }

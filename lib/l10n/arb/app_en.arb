@@ -7,11 +7,11 @@
     "noCollateralText":"You don't need to be a landowner to get loans.",
     "seamlessProcess": "Seamless Process",
     "seamlessProcessText": "We’ve created the most seamless small business loan process for your business.",
-    "welcome":"Welcome",
+    "welcome":"Welcome,",
     "signInToContinue":"Enter your phone number to continue",
     "continueText":"Continue",
-    "welcomeBack":"Welcome Back",
-    "notUser": "No **{user}**.",
+    "welcomeBack":"Welcome Back,",
+    "notUser": "Not {user}",
         "@notUser": {
             "placeholders": {
                 "user": {}
@@ -19,6 +19,25 @@
         },
     "signOut":"Sign out",
     "availableOnWeb":"Available on Web",
-    "quickLoans": "Get access to quick loans from your browser"
-
+    "quickLoans": "Get access to quick loans from your browser",
+    "personalInformation":"Personal Information",
+    "gettingOnboard":"Getting onboard is easy, tell us about your self.",
+    "helpUsKnow":"Help us know you better",
+    "selectLanguage":"Select Language",
+    "selectPreferedLanguage":"Select your prefered language",
+    "firstName":"First Name",
+    "surname":"Surname",
+    "emailAddress":"Email Address",
+    "birthDate":"Birth Date",
+    "phoneNumber":"Phone number",
+    "referralCode":"Referral Code",
+    "onlyEnterReferral":"Please, only enter the referral code provided by a referral. Leave empty if you don’t have a referral code.",
+    "enterOtp":"Enter OTP",
+    "otpSent": "Please enter OTP token sent to your",
+    "otpBeginsWith": "Your 6 digit code begins with 4*****.",
+    "ageLimit":"You must be 24 years or older",
+    "email":"email",
+    "and":"and",
+    "whatsapp":"whatsapp" 
+   
 }

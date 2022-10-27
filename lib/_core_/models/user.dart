@@ -1,8 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+@CopyWith()
 class User {
   User(
       {required this.firstName,
@@ -11,6 +13,7 @@ class User {
       this.birthDate,
       this.phoneNumber,
       this.referralCode,
+      this.accessToken,
       this.isVerified = false});
 
   final String firstName;
@@ -20,6 +23,7 @@ class User {
   final String? phoneNumber;
   final String? referralCode;
   final bool isVerified;
+  final String? accessToken;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

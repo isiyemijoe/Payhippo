@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:payhippo/_core_/utils/size_config.dart';
 import 'package:payhippo/_core_/views/styles/app_colors.dart';
+import 'package:pinput/pinput.dart';
 
 class AppThemes {
   AppThemes._();
@@ -79,6 +81,28 @@ class AppThemes {
           const EdgeInsets.symmetric(horizontal: 19.5, vertical: 19.5)),
       shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
+
+  static final ButtonStyle textButtonStyle = ButtonStyle(
+      textStyle: MaterialStateProperty.all(const TextStyle(
+        fontSize: 16,
+        color: AppColors.blue0,
+        fontWeight: FontWeight.w500,
+      )),
+      foregroundColor: MaterialStateProperty.all(AppColors.blue0),
+      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.disabled)) {
+          return Colors.transparent;
+        } else if (states.contains(MaterialState.pressed)) {
+          return AppColors.blue0.withOpacity(0.05);
+        } else {
+          return Colors.transparent;
+        }
+      }),
+      padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(horizontal: 19.5, vertical: 19.5)),
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
+
   static TextTheme get _textTheme {
     final base = ThemeData.light().textTheme;
     return GoogleFonts.notoSansTextTheme().copyWith(
@@ -130,4 +154,34 @@ class AppThemes {
       ),
     );
   }
+
+  static final defaultPinTheme = PinTheme(
+    width: SizeConfig.blockSizeVertical * 16,
+    height: SizeConfig.blockSizeHorizontal * 14,
+    textStyle: const TextStyle(
+      fontSize: 15,
+      color: AppColors.titleBlack,
+      fontWeight: FontWeight.w600,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: AppColors.grey),
+      borderRadius: BorderRadius.circular(5),
+    ),
+  );
+
+  static final focusedTheme = PinTheme(
+    width: SizeConfig.blockSizeVertical * 16,
+    height: SizeConfig.blockSizeHorizontal * 14,
+    textStyle: const TextStyle(
+      fontSize: 15,
+      color: AppColors.titleBlack,
+      fontWeight: FontWeight.w600,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: AppColors.blue0, width: 2),
+      borderRadius: BorderRadius.circular(5),
+    ),
+  );
 }

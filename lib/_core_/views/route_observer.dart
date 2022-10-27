@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payhippo/modules/authentication/login/model/login_args.dart';
+import 'package:payhippo/modules/authentication/login/model/logout_args.dart';
 
 enum SessionTimeoutReason { INACTIVITY, SESSION_TIMEOUT, LOGIN_REQUESTED }
 
