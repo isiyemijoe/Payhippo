@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: Colors.white,
       body: Container(
         padding: const EdgeInsets.only(
-          top: 64,
+          top: 40,
         ),
         decoration: BoxDecoration(
           color: const Color(0XFF0357EE).withOpacity(0.05),
@@ -66,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             const SizedBox(height: 27),
             Container(
-              height: MediaQuery.of(context).size.height * 0.28,
+              height: MediaQuery.of(context).size.height * 0.3,
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 41, bottom: 41),
               decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onClick: () =>
                             Navigator.of(context).pushNamed(AppRoute.login)),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
                     child: HippoButton(
@@ -138,17 +138,17 @@ class _OnboardingPage extends StatelessWidget {
   final OnboardingPageData data;
 
   double get imageWidth {
-    if (SizeConfig.blockSizeHorizontal < 3.4) {
-      return SizeConfig.blockSizeHorizontal * 70;
+    if (SizeConfig.blockSizeVertical < 3.4) {
+      return SizeConfig.blockSizeVertical * 70;
     }
     return SizeConfig.blockSizeHorizontal * 90;
   }
 
   double get imageHeight {
     if (SizeConfig.blockSizeHorizontal < 3.4) {
-      return SizeConfig.blockSizeHorizontal * 50;
+      return SizeConfig.blockSizeHorizontal * 40;
     }
-    return SizeConfig.blockSizeHorizontal * 70;
+    return SizeConfig.blockSizeHorizontal * 60;
   }
 
   @override
