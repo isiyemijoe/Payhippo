@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:payhippo/_core_/network/resource.dart';
 
 class NetworkBoundResource {
+  const NetworkBoundResource();
   Stream<Resource<T?>> networkBoundResource<T>({
     bool shouldLoadFromLocal = false,
     bool Function(T?)? shouldLoadFromRemote,

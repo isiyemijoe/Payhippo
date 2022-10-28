@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payhippo/_core_/data/authentication_manager.dart';
 import 'package:payhippo/_core_/data/di.dart';
 import 'package:payhippo/_core_/data/remote/response_observer.dart';
 import 'package:payhippo/_core_/models/user.dart';
@@ -16,14 +17,15 @@ class SignupResponseObserver extends ResponseObserver<Resource<User?>> {
   @override
   void observe(Resource<User?> event) {
     if (event is Success) {
-      _doOnSuccess();
+      _doOnSuccess(event.data);
     } else if (event is Error) {
       _doOnError(event);
     }
     super.observe(event);
   }
 
-  void _doOnSuccess() {
+  void _doOnSuccess(User? user) {
+    AuthenticationManager.getInstance().auth(user);
     viewModel.setIsAppFirstLaunch();
 
     locator<GlobalKey<NavigatorState>>().currentState?.pushNamedAndRemoveUntil(

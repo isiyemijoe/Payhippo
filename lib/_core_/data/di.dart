@@ -24,7 +24,7 @@ Future<void> setupDeps() async {
       return LocalStorageServiceImpl.getInstance();
     })
     ..registerSingletonWithDependencies<AuthenticationManager>(
-      AuthenticationManager.new,
+      () => AuthenticationManager.getInstance(),
       dependsOn: [LocalStorageService],
     )
     ..registerSingletonAsync<BiometricService>(

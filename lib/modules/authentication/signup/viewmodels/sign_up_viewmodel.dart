@@ -17,7 +17,7 @@ class SignupViewModel extends BaseViewModel {
   AuthenticationServiceStruct _service;
 
   Stream<Resource<User?>> createAccount() async* {
-    final stream = _service.createAccount(request: formModel._request);
+    final stream = _service.createAccount(request: formModel.request);
 
     await for (final event in stream) {
       formModel.isOnBoardingUser.value = event is Loading;
@@ -28,7 +28,7 @@ class SignupViewModel extends BaseViewModel {
 
   Stream<Resource<bool?>> requestOtp() async* {
     final stream =
-        _service.requestOtp(phoneNumber: formModel._request.phoneNumber);
+        _service.requestOtp(phoneNumber: formModel.request.phoneNumber);
 
     await for (final event in stream) {
       formModel.isGeneratingOtp.value = event is Loading;
@@ -46,25 +46,25 @@ class OnboardingFormModel with Validators {
     isFirstPageValid = Rx.combineLatest(
         [emailStream, firstNameStream, lastNameStream, languageStream],
         (values) {
-      return _isEmailValid(displayError: true) &&
-          _isFirstNameValid(displayError: true) &&
-          _isLastNameValid(displayError: true) &&
-          _isLanguageNameValid(displayError: true);
+      return isEmailValidCheck(displayError: true) &&
+          isFirstNameValid(displayError: true) &&
+          isLastNameValid(displayError: true) &&
+          isLanguageNameValid(displayError: true);
     }).asBroadcastStream();
 
     isSecondPageValid = Rx.combineLatest([
       birthDateStream,
       phoneStream,
     ], (values) {
-      return _isBirthDateValid() && _isPhoneValid();
+      return isBirthDateValid() && isPhoneValid();
     }).asBroadcastStream();
 
     ///OtpPage Validation
     isOtpPinValid = Rx.combineLatest([_otpPinSubject.stream], (values) {
-      return _isOtpPinValid(displayError: false);
+      return isOtpPinValidCheck(displayError: false);
     }).asBroadcastStream();
   }
-  final SignupRequest _request = SignupRequest();
+  final SignupRequest request = SignupRequest();
 
   String ussdCodeText = '';
 
@@ -104,43 +104,43 @@ class OnboardingFormModel with Validators {
 
   ///
   void onEmailChanged(String? email) {
-    _request.email = email;
+    request.email = email;
     _emailSubject.add(email);
-    _isEmailValid();
+    isEmailValidCheck();
   }
 
   void onLanguageChanged(String? language) {
-    _request.language = language;
+    request.language = language;
     _languageSubject.add(language);
-    _isLanguageNameValid(displayError: true);
+    isLanguageNameValid(displayError: true);
   }
 
   void onFirstNameChanged(String? firstname) {
-    _request.firstName = firstname;
+    request.firstName = firstname;
     _firstNameSubject.add(firstname);
-    _isFirstNameValid(displayError: true);
+    isFirstNameValid(displayError: true);
   }
 
   void onLastNameChanged(String? lastName) {
-    _request.lastName = lastName;
+    request.lastName = lastName;
     _lastNameSubject.add(lastName);
-    _isLastNameValid(displayError: true);
+    isLastNameValid(displayError: true);
   }
 
   void onBirthDateChanged(String? birthDate) {
-    _request.birthDate = birthDate;
+    print(birthDate);
+    request.birthDate = birthDate;
     _birthDateSubject.add(birthDate);
-    _isBirthDateValid(displayError: true);
+    isBirthDateValid(displayError: true);
   }
 
   void onReferralChanged(String? code) {
-    _request.referralCode = code;
+    request.referralCode = code;
     _referralSubject.add(code);
   }
 
-  @protected
-  bool _isEmailValid({bool displayError = true}) {
-    final emailAddress = _request.email;
+  bool isEmailValidCheck({bool displayError = true}) {
+    final emailAddress = request.email;
     final isValid = isEmailValid(emailAddress);
     if (displayError && !isValid) {
       _emailSubject.addError('Please enter a valid email address.');
@@ -148,17 +148,19 @@ class OnboardingFormModel with Validators {
     return isValid;
   }
 
-  @protected
-  bool _isBirthDateValid({bool displayError = true}) {
-    final birthDate = _request.birthDate;
-    final dateTime = DateFormat('yyyy/mm/dd').parse(birthDate ?? '');
+  bool isBirthDateValid({bool displayError = true}) {
+    final birthDate = request.birthDate;
+    DateTime? dateTime;
+    try {
+      dateTime = DateFormat('yyyy/mm/dd').parse(birthDate ?? '');
+    } catch (e) {}
 
     if (dateTime == null) {
       _birthDateSubject.addError('Please enter a valid date');
       return false;
     } else {
       final isValid =
-          dateTime.add(const Duration(days: 9125)).isBefore(DateTime.now());
+          dateTime.add(const Duration(days: 8760)).isBefore(DateTime.now());
       if (displayError && !isValid) {
         _birthDateSubject.add('You must be 24 years or older');
       }
@@ -169,13 +171,13 @@ class OnboardingFormModel with Validators {
 
   ///
   void onPhoneChanged(String? phone) {
-    _request.phoneNumber = phone;
+    request.phoneNumber = phone;
     _phoneSubject.add(phone);
-    _isPhoneValid();
+    isPhoneValid();
   }
 
-  bool _isFirstNameValid({required bool displayError}) {
-    final firstName = _request.firstName ?? '';
+  bool isFirstNameValid({required bool displayError}) {
+    final firstName = request.firstName ?? '';
     final isValid = firstName.isNotEmpty;
     if (displayError && !isValid) {
       _firstNameSubject.addError('Please enter your first name');
@@ -183,8 +185,8 @@ class OnboardingFormModel with Validators {
     return isValid;
   }
 
-  bool _isLastNameValid({required bool displayError}) {
-    final lastName = _request.lastName ?? '';
+  bool isLastNameValid({required bool displayError}) {
+    final lastName = request.lastName ?? '';
     final isValid = lastName.isNotEmpty;
     if (displayError && !isValid) {
       _lastNameSubject.addError('Please enter your surname');
@@ -192,8 +194,8 @@ class OnboardingFormModel with Validators {
     return isValid;
   }
 
-  bool _isLanguageNameValid({required bool displayError}) {
-    final language = _request.language ?? '';
+  bool isLanguageNameValid({required bool displayError}) {
+    final language = request.language ?? '';
     final isValid = language.isNotEmpty;
     if (displayError && !isValid) {
       _lastNameSubject.addError('Please select your prefered language');
@@ -202,8 +204,8 @@ class OnboardingFormModel with Validators {
   }
 
   ///
-  bool _isPhoneValid({bool displayError = true}) {
-    final phoneNumber = _request.phoneNumber ?? '';
+  bool isPhoneValid({bool displayError = true}) {
+    final phoneNumber = request.phoneNumber ?? '';
     final validationReponse = isPhoneNumberValid('+234$phoneNumber');
     if (displayError && !validationReponse.isValid) {
       _phoneSubject.addError(
@@ -213,20 +215,19 @@ class OnboardingFormModel with Validators {
   }
 
   void onOtpChanged(String? pin) {
-    _request.otp = pin;
-    _otpPinSubject.add(_request.otp);
+    request.otp = pin;
+    _otpPinSubject.add(request.otp);
   }
 
-  @protected
-  bool _isOtpPinValid({bool displayError = true}) {
-    final pin = _request.otp ?? '';
+  bool isOtpPinValidCheck({bool displayError = true}) {
+    final pin = request.otp ?? '';
     final isValid = pin.isNotEmpty && pin.length >= 6;
     return isValid;
   }
 
   void onDateOfBirthChanged(String? dateOfBirth) {
-    _request.birthDate = dateOfBirth;
-    _birthDateSubject.add(_request.birthDate);
+    request.birthDate = dateOfBirth;
+    _birthDateSubject.add(request.birthDate);
   }
 
   void reset() {

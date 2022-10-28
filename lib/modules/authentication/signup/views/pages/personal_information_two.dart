@@ -92,7 +92,7 @@ class _PersonalInfoPageTwoState extends State<PersonalInfoPageTwo>
                       hintText: '1997/06/19',
                       helperText: 'You must be 24 years and older',
                       lastDate:
-                          DateTime.now().subtract(const Duration(days: 9125)),
+                          DateTime.now().subtract(const Duration(days: 8760)),
                     ),
                   ),
                   TitledField(

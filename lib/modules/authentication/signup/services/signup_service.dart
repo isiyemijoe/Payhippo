@@ -20,7 +20,7 @@ abstract class AuthenticationServiceStruct extends NetworkBoundResource {
 
   Stream<Resource<bool?>> validateOtp({required OTPValidationRequest? otp});
 
-  Stream<Resource<bool?>> login({required LoginRequest? request});
+  Stream<Resource<User?>> login({required LoginRequest? request});
 }
 
 class AuthenticationService extends AuthenticationServiceStruct {
@@ -32,7 +32,6 @@ class AuthenticationService extends AuthenticationServiceStruct {
       fromRemote: () =>
           _client.createAccount(request: request).then((value) => value),
       onRemoteDataFetched: (User? response) async {
-        _authenticationManager.auth(response);
         return response;
       },
     );
@@ -61,19 +60,10 @@ class AuthenticationService extends AuthenticationServiceStruct {
   }
 
   @override
-  Stream<Resource<bool?>> login({LoginRequest? request}) {
+  Stream<Resource<User?>> login({LoginRequest? request}) {
     return networkBoundResource(
-      fromRemote: () => _client.login(request: request).then((value) => true),
-      onRemoteDataFetched: (bool? response) async {
-        //temporary....
-        final user = _authenticationManager.getUser() ??
-            User(
-              firstName: "Joseph",
-              lastName: "Isiyemi",
-              email: "josephisiyemi1@gmail.com",
-              isVerified: true,
-            );
-        _authenticationManager.auth(user);
+      fromRemote: () => _client.login(request: request).then((value) => value),
+      onRemoteDataFetched: (User? response) async {
         return response;
       },
     );
@@ -131,7 +121,7 @@ class MockSignupService extends AuthenticationServiceStruct {
   }
 
   @override
-  Stream<Resource<bool?>> login({required LoginRequest? request}) async* {
+  Stream<Resource<User?>> login({required LoginRequest? request}) async* {
     yield Loading(null);
     // ignore: inference_failure_on_instance_creation
     await Future.delayed(const Duration(seconds: 1));
@@ -145,7 +135,7 @@ class MockSignupService extends AuthenticationServiceStruct {
 
       _authenticationManager.auth(mockUser);
 
-      yield Success(true);
+      yield Success(mockUser);
     } else {
       yield Error(
           'Error logging in, please try again', 'User already exist', null);

@@ -1,18 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:intl/locale.dart';
 import 'package:payhippo/_core_/data/authentication_manager.dart';
-import 'package:payhippo/_core_/data/di.dart';
 import 'package:payhippo/_core_/models/language.dart';
-import 'package:payhippo/l10n/l10n.dart';
 import 'package:payhippo/modules/authentication/signup/views/pages/personal_infomation_one.dart';
 import 'package:rxdart/subjects.dart';
 
 class BaseViewModel extends ChangeNotifier {
-  BaseViewModel({AuthenticationManager? authenticationManager})
-      : authenticationManager =
-            authenticationManager ?? locator<AuthenticationManager>();
-
-  final AuthenticationManager authenticationManager;
+  final AuthenticationManager authenticationManager =
+      AuthenticationManager.getInstance();
 
   ///Retrieves the firstName name of the loggedIn User
   String get firstName => authenticationManager.firstName;

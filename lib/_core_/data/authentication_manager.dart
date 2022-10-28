@@ -12,12 +12,13 @@ import 'package:payhippo/_core_/views/route_observer.dart';
 //import 'app_sessioned.dart';
 
 class AuthenticationManager {
-  AuthenticationManager({
-    LocalStorageService? localStorageService,
-  }) : localStorage = (localStorageService ?? locator<LocalStorageService>())
-            as LocalStorageServiceImpl;
+  factory AuthenticationManager.getInstance() {
+    return _manager;
+  }
+  AuthenticationManager._();
+  static final AuthenticationManager _manager = AuthenticationManager._();
 
-  final LocalStorageServiceImpl localStorage;
+  LocalStorageServiceImpl localStorage = LocalStorageServiceImpl();
 
   User? _loggedInUser;
   int _sessionExpiryTime = 120; //seconds

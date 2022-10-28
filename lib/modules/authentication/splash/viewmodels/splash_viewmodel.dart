@@ -4,7 +4,7 @@ import 'package:payhippo/_core_/data/di.dart';
 import 'package:payhippo/_core_/data/local/local_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SplashViewModel extends BaseViewModel {
+class SplashViewModel extends ChangeNotifier {
   SplashViewModel({LocalStorageService? localStorageService})
       : _localStorage = (localStorageService ?? locator<LocalStorageService>())
             as LocalStorageServiceImpl;

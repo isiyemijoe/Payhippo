@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payhippo/_core_/data/base_viewmodel.dart';
 import 'package:payhippo/_core_/data/di.dart';
+import 'package:payhippo/_core_/models/user.dart';
 import 'package:payhippo/_core_/network/resource.dart';
 import 'package:payhippo/_core_/services/biometric_service.dart';
 import 'package:payhippo/_core_/utils/validators.dart';
@@ -22,8 +23,8 @@ class LoginViewModel extends BaseViewModel {
 
   bool get canUseBiometrics => _biometricService.canUseBiometrics && isLoggedIn;
 
-  Stream<Resource<bool?>> login() async* {
-    final stream = _service.login(request: formModel._request);
+  Stream<Resource<User?>> login() async* {
+    final stream = _service.login(request: formModel.request);
 
     await for (final event in stream) {
       formModel.isLogginIn.value = event is Loading;
@@ -31,11 +32,11 @@ class LoginViewModel extends BaseViewModel {
     }
   }
 
-  Stream<Resource<bool?>> loginWithBiometrics() async* {
+  Stream<Resource<User?>> loginWithBiometrics() async* {
     final validate = await _biometricService.authenticate();
 
     if (validate) {
-      final stream = _service.login(request: formModel._request);
+      final stream = _service.login(request: formModel.request);
 
       await for (final event in stream) {
         formModel.isLogginIn.value = event is Loading;
@@ -55,10 +56,10 @@ class LoginViewModel extends BaseViewModel {
 class LoginFormModel with Validators {
   LoginFormModel() {
     isPageValid = Rx.combineLatest([_phoneSubject.stream], (values) {
-      return _isPhoneNumberValid(displayError: true);
+      return isPhoneNumberValidCheck(displayError: true);
     }).asBroadcastStream();
   }
-  final LoginRequest _request = LoginRequest();
+  final LoginRequest request = LoginRequest();
 
   final BehaviorSubject<String?> _phoneSubject = BehaviorSubject();
   Stream<String?> get phoneStream => _phoneSubject.stream;
@@ -68,14 +69,13 @@ class LoginFormModel with Validators {
   final ValueNotifier<bool> isLogginIn = ValueNotifier(false);
 
   void onPhoneChanged(String? number) {
-    _request.phoneNumber = number;
-    _phoneSubject.add(_request.otp);
-    _isPhoneNumberValid();
+    request.phoneNumber = number;
+    _phoneSubject.add(request.otp);
+    isPhoneNumberValidCheck();
   }
 
-  @protected
-  bool _isPhoneNumberValid({bool displayError = true}) {
-    final phoneNumber = _request.phoneNumber ?? '';
+  bool isPhoneNumberValidCheck({bool displayError = true}) {
+    final phoneNumber = request.phoneNumber ?? '';
     final isValid = isPhoneNumberValid('+234$phoneNumber');
     if (displayError && !isValid.isValid) {
       _phoneSubject

@@ -117,9 +117,10 @@ class _LoginScreenState extends State<LoginScreen>
                                 .disposedBy(this);
                           }),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    if (_viewmodel.canUseBiometrics)
+                      const SizedBox(
+                        width: 20,
+                      ),
                     if (_viewmodel.canUseBiometrics)
                       Container(
                         height: 56,
