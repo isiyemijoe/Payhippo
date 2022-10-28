@@ -20,7 +20,7 @@ void main() {
   late final MockAuthenticationServiceClient client;
 
   late final SignupViewModel viewmodel;
-  final user = User(
+  late final user = User(
     firstName: 'Joseph',
     lastName: 'Isiyemi',
     email: 'Josephisiyemi1@gmail.com',
@@ -28,10 +28,15 @@ void main() {
 
   setUpAll(() {
     client = MockAuthenticationServiceClient();
-    final _service =
+    final service =
         AuthenticationService(client, AuthenticationManager.getInstance());
 
-    viewmodel = SignupViewModel(signupService: _service);
+    viewmodel = SignupViewModel(signupService: service);
+    User(
+      firstName: 'Joseph',
+      lastName: 'Isiyemi',
+      email: 'Josephisiyemi1@gmail.com',
+    );
   });
   // ignore: omit_local_variable_types
 

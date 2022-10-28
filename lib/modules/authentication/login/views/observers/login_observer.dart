@@ -23,14 +23,16 @@ class LoginResponseObserver extends ResponseObserver<Resource<User?>> {
   }
 
   void _doOnSuccess(User? user) {
-    final user = AuthenticationManager.getInstance().getUser() ??
+    final auth = user ??
         User(
           firstName: "Joseph",
           lastName: "Isiyemi",
           email: "josephisiyemi1@gmail.com",
           isVerified: true,
         );
-    AuthenticationManager.getInstance().auth(user);
+
+    //Update auth state in the auth manager class
+    AuthenticationManager.getInstance().auth(auth);
     viewModel.setIsAppFirstLaunch();
 
     locator<GlobalKey<NavigatorState>>().currentState?.pushNamed(

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:payhippo/_core_/data/authentication_manager.dart';
@@ -7,7 +6,6 @@ import 'package:payhippo/_core_/data/local/local_storage.dart';
 import 'package:payhippo/_core_/models/user.dart';
 import 'package:payhippo/_core_/network/resource.dart';
 import 'package:payhippo/_core_/services/biometric_service.dart';
-import 'package:payhippo/modules/authentication/login/model/login_request.dart';
 import 'package:payhippo/modules/authentication/login/viewmodels/login_viewmodel.dart';
 import 'package:payhippo/modules/authentication/signup/services/signup_service.dart';
 import 'package:payhippo/modules/authentication/signup/services/signup_service_client.dart';

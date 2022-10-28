@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:payhippo/_core_/data/authentication_manager.dart';
 import 'package:payhippo/_core_/data/di.dart';
 import 'package:payhippo/_core_/data/remote/composite_disposable_widget.dart';
+import 'package:payhippo/_core_/utils/constants.dart';
 import 'package:payhippo/_core_/utils/size_config.dart';
 import 'package:payhippo/_core_/views/app_route.dart';
 import 'package:payhippo/_core_/views/route_observer.dart';
@@ -14,6 +15,7 @@ import 'package:payhippo/l10n/l10n.dart';
 import 'package:payhippo/modules/authentication/login/viewmodels/login_viewmodel.dart';
 import 'package:payhippo/modules/authentication/login/views/observers/login_observer.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _restoreState() {
+    //Restore previously logged in user's phone number for faster login
     if (_viewmodel.phoneNumber.isNotEmpty) {
       _textController.text = _viewmodel.phoneNumber;
       _viewmodel.formModel.onPhoneChanged(_viewmodel.phoneNumber);
@@ -185,7 +188,7 @@ class _AvailableOnWebWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //Launch Payhippo page
+        launchUrl(Uri.parse(Constants.hippoWebUrl));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
