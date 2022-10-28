@@ -103,6 +103,7 @@ class _PersonalInfoPageOneState extends State<PersonalInfoPageOne>
                 valueStream: widget.viewModel.formModel.firstNameStream,
                 prefixIcon: const Icon(Icons.person),
                 onChanged: widget.viewModel.formModel.onFirstNameChanged,
+                autofillHints: const [AutofillHints.givenName],
               ),
             ),
             TitledField(
@@ -111,6 +112,7 @@ class _PersonalInfoPageOneState extends State<PersonalInfoPageOne>
                 valueStream: widget.viewModel.formModel.lastNameStream,
                 prefixIcon: const Icon(Icons.person),
                 onChanged: widget.viewModel.formModel.onLastNameChanged,
+                autofillHints: const [AutofillHints.familyName],
               ),
             ),
             TitledField(
@@ -119,6 +121,7 @@ class _PersonalInfoPageOneState extends State<PersonalInfoPageOne>
                 valueStream: widget.viewModel.formModel.emailStream,
                 prefixIcon: const Icon(Icons.email),
                 onChanged: widget.viewModel.formModel.onEmailChanged,
+                autofillHints: const [AutofillHints.email],
               ),
             ),
             const SizedBox(

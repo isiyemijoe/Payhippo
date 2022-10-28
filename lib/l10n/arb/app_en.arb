@@ -38,6 +38,6 @@
     "ageLimit":"You must be 24 years or older",
     "email":"email",
     "and":"and",
-    "whatsapp":"whatsapp" 
-   
+    "whatsapp":"whatsapp",
+    "loginOtp":"A 6 digit pin will be sent to your email and phone number for verification purposes."
 }

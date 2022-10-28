@@ -22,17 +22,27 @@ class PayHippoApp extends StatelessWidget {
               builder: (context, snapshot) {
                 final lang = snapshot.data;
 
-                return MaterialApp(
-                    title: 'Payhippo',
-                    theme: AppThemes.payhippoLightTheme(),
-                    navigatorKey: locator<GlobalKey<NavigatorState>>(),
-                    navigatorObservers: [RoutesObserver()],
-                    locale: lang?.locale,
-                    localizationsDelegates:
-                        AppLocalizations.localizationsDelegates,
-                    routes: AppRoute.buildRouteMap(),
-                    initialRoute: AppRoute.splash,
-                    supportedLocales: AppLocalizations.supportedLocales);
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    final currentFocus = FocusScope.of(context);
+
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                  },
+                  child: MaterialApp(
+                      title: 'Payhippo',
+                      theme: AppThemes.payhippoLightTheme(),
+                      navigatorKey: locator<GlobalKey<NavigatorState>>(),
+                      navigatorObservers: [RoutesObserver()],
+                      locale: lang?.locale,
+                      localizationsDelegates:
+                          AppLocalizations.localizationsDelegates,
+                      routes: AppRoute.buildRouteMap(),
+                      initialRoute: AppRoute.splash,
+                      supportedLocales: AppLocalizations.supportedLocales),
+                );
               });
         });
   }

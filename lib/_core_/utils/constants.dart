@@ -1,3 +1,3 @@
 class Constants {
-  static const String hippoWebUrl = 'https://payhippo.ng/';
+  static const String hippoWebUrl = 'https://app.payhippo.ng/';
 }

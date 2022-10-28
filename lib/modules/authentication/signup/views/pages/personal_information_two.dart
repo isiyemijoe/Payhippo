@@ -101,6 +101,7 @@ class _PersonalInfoPageTwoState extends State<PersonalInfoPageTwo>
                     child: HippoTextField.phone(
                       readOnly: !snapshot,
                       valueStream: widget.viewModel.formModel.phoneStream,
+                      hintText: "7013957515",
                       onChanged: widget.viewModel.formModel.onPhoneChanged,
                     ),
                   ),

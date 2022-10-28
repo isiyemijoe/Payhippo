@@ -82,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       bottomSheet: const _AvailableOnWebWidget(),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -102,6 +103,14 @@ class _LoginScreenState extends State<LoginScreen>
                   valueStream: _viewmodel.formModel.phoneStream,
                   hintText: '9013957515',
                   onChanged: _viewmodel.formModel.onPhoneChanged,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  context.l10n.loginOtp,
+                  style: context.textTheme.bodyMedium!
+                      .copyWith(fontSize: 15, fontWeight: FontWeight.w300),
                 ),
                 const SizedBox(
                   height: 30,
@@ -141,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 .listen(_observer.observe)
                                 .disposedBy(this);
                           },
-                          icon: Assets.vectors.icFingerprint.svg(),
+                          icon: Assets.vectors.icFingerprint
+                              .svg(color: AppColors.blue0),
                         ),
                       )
                   ],

@@ -53,7 +53,6 @@ class AuthenticationManager {
     _loggedInUser = null;
     _scheduler?.close();
     _scheduler = null;
-    localStorage.deleteLoggedInUser();
   }
 
   // ignore: use_setters_to_change_properties

@@ -66,6 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             const SizedBox(height: 27),
             Container(
+              height: MediaQuery.of(context).size.height * 0.28,
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 41, bottom: 41),
               decoration: BoxDecoration(
@@ -83,6 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: double.infinity,
@@ -182,7 +184,7 @@ class _OnboardingPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400),
               ),
             ),

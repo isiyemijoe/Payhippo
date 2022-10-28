@@ -80,7 +80,7 @@ class LoginFormModel with Validators {
     final isValid = isPhoneNumberValid('+234$phoneNumber');
     if (displayError && !isValid.isValid) {
       _phoneSubject
-          .addError(isValid.reason ??   'Please enter a valid mobile number.');
+          .addError(isValid.reason ?? 'Please enter a valid mobile number.');
     }
     return isValid.isValid;
   }

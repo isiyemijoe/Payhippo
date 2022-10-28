@@ -3,8 +3,6 @@ import 'package:payhippo/_core_/network/resource.dart';
 import 'package:payhippo/_core_/views/styles/app_colors.dart';
 import 'package:rxdart/rxdart.dart';
 
-///@author Paul Okeke
-
 abstract class InputValidationState {
   InputValidationState({required this.data, this.errorMessage});
 
