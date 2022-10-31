@@ -7,6 +7,7 @@ import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:payhippo/_core_/data/local/local_storage.dart' as _i2;
+import 'package:payhippo/_core_/models/language.dart' as _i5;
 import 'package:payhippo/_core_/models/user.dart' as _i4;
 
 // ignore_for_file: type=lint
@@ -131,6 +132,14 @@ class MockLocalStorageServiceImpl extends _i1.Mock
           #setIsVerified,
           [],
           {#state: state},
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+  @override
+  _i3.Future<bool> saveUserLanguage(_i5.Language? data) => (super.noSuchMethod(
+        Invocation.method(
+          #saveUserLanguage,
+          [data],
         ),
         returnValue: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);

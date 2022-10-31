@@ -15,6 +15,10 @@ class SplashViewModel extends ChangeNotifier {
     return _localStorage.getAppFirstLaunch() ?? true;
   }
 
+  bool hasSetLanguage() {
+    return _localStorage.getUserLanguage() != null;
+  }
+
   Stream<bool> countdown() {
     return TimerStream<bool>(true, const Duration(milliseconds: 3500));
   }

@@ -83,20 +83,20 @@ class _PersonalInfoPageOneState extends State<PersonalInfoPageOne>
             const SizedBox(
               height: 30,
             ),
-            TitledField(
-              title: context.l10n.selectLanguage,
-              child: HippoDropdownTextField<Language>(
-                hintText: context.l10n.selectPreferedLanguage,
-                prefixIcon: const Icon(Icons.translate),
-                options: languages,
-                getLabel: (p0) => p0.getLable(),
-                onChanged: (Language language) {
-                  widget.viewModel.formModel
-                      .onLanguageChanged(language.languageName);
-                  context.read<BaseViewModel>().setLocal(language);
-                },
-              ),
-            ),
+            // TitledField(
+            //   title: context.l10n.selectLanguage,
+            //   child: HippoDropdownTextField<Language>(
+            //     hintText: context.l10n.selectPreferedLanguage,
+            //     prefixIcon: const Icon(Icons.translate),
+            //     options: languages,
+            //     getLabel: (p0) => p0.getLable(),
+            //     onChanged: (Language language) {
+            //       widget.viewModel.formModel
+            //           .onLanguageChanged(language.languageName);
+            //       context.read<BaseViewModel>().setLocal(language);
+            //     },
+            //   ),
+            // ),
             TitledField(
               title: context.l10n.firstName,
               child: HippoTextField.stream(

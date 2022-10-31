@@ -39,5 +39,10 @@
     "email":"email",
     "and":"and",
     "whatsapp":"whatsapp",
-    "loginOtp":"A 6 digit pin will be sent to your email and phone number for verification purposes."
+    "loginOtp":"A 6 digit pin will be sent to your email and phone number for verification purposes.",
+    "chooseLanguage":"Choose your prefered laguage",
+    "changeLater":"You can change this later in settings.",
+    "setLanguageEng":"Set English as you prefered laguage.",
+    "setLanguagePgn":"Make we dey yarn you for Pidgin."
+
 }

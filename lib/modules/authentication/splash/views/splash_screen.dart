@@ -32,7 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
             event,
             (bool firstLaunch) {
               if (firstLaunch) {
-                Navigator.popAndPushNamed(context, AppRoute.onboarding);
+                if (viewModel.hasSetLanguage()) {
+                  Navigator.popAndPushNamed(context, AppRoute.onboarding);
+                } else {
+                  Navigator.popAndPushNamed(context, AppRoute.selectLanguage);
+                }
               } else {
                 Navigator.popAndPushNamed(context, AppRoute.login);
               }

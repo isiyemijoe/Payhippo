@@ -6,7 +6,9 @@ import 'package:payhippo/modules/authentication/signup/viewmodels/sign_up_viewmo
 import 'package:payhippo/modules/authentication/signup/viewmodels/validate_otp_viewmodel.dart';
 import 'package:payhippo/modules/authentication/signup/views/screens/otp_screen.dart';
 import 'package:payhippo/modules/authentication/signup/views/screens/signup_screen.dart';
+import 'package:payhippo/modules/authentication/splash/viewmodels/select_language_viewmodel.dart';
 import 'package:payhippo/modules/authentication/splash/viewmodels/splash_viewmodel.dart';
+import 'package:payhippo/modules/authentication/splash/views/select_language_page.dart';
 import 'package:payhippo/modules/authentication/splash/views/splash_screen.dart';
 import 'package:payhippo/modules/dashboard/views/dashboard.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,7 @@ class AppRoute {
   static const String signup = 'SIGNUP';
   static const String otp = 'OTP';
   static const String dashboard = 'DASHBOARD';
+  static const String selectLanguage = 'SELECT_LANGUAGE';
 
   static Map<String, WidgetBuilder> buildRouteMap() => {
         splash: (context) => ChangeNotifierProvider(
@@ -45,6 +48,11 @@ class AppRoute {
             builder: (context, child) {
               return const OTPScreen();
             }),
-        dashboard: (context) => const DashboardScreen()
+        dashboard: (context) => const DashboardScreen(),
+        selectLanguage: (context) => ChangeNotifierProvider(
+            create: (context) => SelectLanguageViewmodel(),
+            builder: (context, child) {
+              return const SelectLanguageScreen();
+            }),
       };
 }

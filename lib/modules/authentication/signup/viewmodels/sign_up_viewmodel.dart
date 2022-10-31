@@ -44,12 +44,10 @@ class OnboardingFormModel with Validators {
   OnboardingFormModel() {
     ///PhoneNumber and Email Page Validation
     isFirstPageValid = Rx.combineLatest(
-        [emailStream, firstNameStream, lastNameStream, languageStream],
-        (values) {
+        [emailStream, firstNameStream, lastNameStream], (values) {
       return isEmailValidCheck(displayError: true) &&
           isFirstNameValid(displayError: true) &&
-          isLastNameValid(displayError: true) &&
-          isLanguageNameValid(displayError: true);
+          isLastNameValid(displayError: true);
     }).asBroadcastStream();
 
     isSecondPageValid = Rx.combineLatest([
@@ -107,12 +105,6 @@ class OnboardingFormModel with Validators {
     request.email = email;
     _emailSubject.add(email);
     isEmailValidCheck();
-  }
-
-  void onLanguageChanged(String? language) {
-    request.language = language;
-    _languageSubject.add(language);
-    isLanguageNameValid(displayError: true);
   }
 
   void onFirstNameChanged(String? firstname) {
@@ -194,15 +186,6 @@ class OnboardingFormModel with Validators {
     return isValid;
   }
 
-  bool isLanguageNameValid({required bool displayError}) {
-    final language = request.language ?? '';
-    final isValid = language.isNotEmpty;
-    if (displayError && !isValid) {
-      _lastNameSubject.addError('Please select your prefered language');
-    }
-    return isValid;
-  }
-
   ///
   bool isPhoneValid({bool displayError = true}) {
     final phoneNumber = request.phoneNumber ?? '';
@@ -233,7 +216,6 @@ class OnboardingFormModel with Validators {
   void reset() {
     onOtpChanged(null);
     onFirstNameChanged(null);
-    onLanguageChanged(null);
     onEmailChanged(null);
     onBirthDateChanged(null);
     onPhoneChanged(null);

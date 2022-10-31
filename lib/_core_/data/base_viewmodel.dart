@@ -5,6 +5,10 @@ import 'package:payhippo/modules/authentication/signup/views/pages/personal_info
 import 'package:rxdart/subjects.dart';
 
 class BaseViewModel extends ChangeNotifier {
+  BaseViewModel() {
+    restoreUserLanguage();
+  }
+
   final AuthenticationManager authenticationManager =
       AuthenticationManager.getInstance();
 
@@ -28,9 +32,14 @@ class BaseViewModel extends ChangeNotifier {
 
   Stream<Language> get locale => _currentLocale.stream;
 
+  void restoreUserLanguage() {
+    final lang = authenticationManager.localStorage.getUserLanguage();
+    if (lang != null) {
+      setLocal(lang);
+    }
+  }
+
   void setLocal(Language local) async {
-    print("Called jherer");
-    //await AppLocalizations.delegate.load(local.locale);
     _currentLocale.add(local);
   }
 }

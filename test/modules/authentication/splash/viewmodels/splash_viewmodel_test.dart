@@ -9,16 +9,17 @@ import 'splash_viewmodel_test.mocks.dart';
 
 @GenerateMocks([LocalStorageServiceImpl])
 void main() {
-  var viewModel =
-      SplashViewModel(localStorageService: MockLocalStorageServiceImpl());
+  late final SplashViewModel viewModel;
 
-  setUp(() async {
+  setUpAll(() async {
     viewModel =
         SplashViewModel(localStorageService: MockLocalStorageServiceImpl());
   });
 
   group("SplashScreen", () {
-    test('Test that value for isFirstLaunch is fetched from local storage', () {
+    test(
+        'Test that value for isFirstLaunch is fetched from local storage correctly',
+        () {
       //@Arrange
       when(viewModel.isFirstLaunch()).thenAnswer((realInvocation) => true);
 
@@ -43,7 +44,7 @@ void main() {
     });
   });
 
-  tearDown(() {
+  tearDownAll(() async {
     viewModel.dispose();
   });
 }

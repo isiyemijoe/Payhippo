@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:payhippo/_core_/models/language.dart';
 import 'package:payhippo/_core_/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -138,6 +139,17 @@ class LocalStorageServiceImpl extends LocalStorageService {
     return data;
   }
 
+  Language? getUserLanguage() {
+    final data =
+        getData(LocalStorageKeys.userLanguageKey) as Map<String, dynamic>?;
+    if (data == null) return null;
+    return Language.fromJson(data);
+  }
+
+  Future<bool> saveUserLanguage(Language data) {
+    return saveData(LocalStorageKeys.userLanguageKey, data.toJson());
+  }
+
   void clear() => _prefs?.clear();
 }
 
@@ -147,4 +159,5 @@ class LocalStorageKeys {
   static const String userEmailKey = 'USER_EMAIL_KEY';
   static const String enableFingerPrintKey = 'ENABLE_FINGERPRINT_KEY';
   static const String isUserFirstLaunchKey = 'IS_USER_FIRST_LAUNCH';
+  static const String userLanguageKey = 'LOGGED_IN_USER_LANGUAGE_KEY';
 }

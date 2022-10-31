@@ -1,14 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:payhippo/_core_/data/authentication_manager.dart';
 import 'package:payhippo/_core_/data/local/local_storage.dart';
 import 'package:payhippo/_core_/models/user.dart';
 import 'package:payhippo/_core_/network/resource.dart';
-import 'package:payhippo/_core_/services/biometric_service.dart';
-import 'package:payhippo/modules/authentication/login/model/login_request.dart';
-import 'package:payhippo/modules/authentication/login/viewmodels/login_viewmodel.dart';
 import 'package:payhippo/modules/authentication/signup/services/signup_service.dart';
 import 'package:payhippo/modules/authentication/signup/services/signup_service_client.dart';
 import 'package:payhippo/modules/authentication/signup/viewmodels/sign_up_viewmodel.dart';
@@ -20,11 +16,7 @@ void main() {
   late final MockAuthenticationServiceClient client;
 
   late final SignupViewModel viewmodel;
-  late final user = User(
-    firstName: 'Joseph',
-    lastName: 'Isiyemi',
-    email: 'Josephisiyemi1@gmail.com',
-  );
+  late final User user;
 
   setUpAll(() {
     client = MockAuthenticationServiceClient();
@@ -32,57 +24,13 @@ void main() {
         AuthenticationService(client, AuthenticationManager.getInstance());
 
     viewmodel = SignupViewModel(signupService: service);
-    User(
+    user = User(
       firstName: 'Joseph',
       lastName: 'Isiyemi',
       email: 'Josephisiyemi1@gmail.com',
     );
   });
   // ignore: omit_local_variable_types
-
-  group('OnboardingFormModel {Language}:', () {
-    test('Test that value of language changes when onLanguageChanged is called',
-        () {
-      const language = 'English';
-
-      //@Arrange
-      when(viewmodel.formModel.onLanguageChanged(language));
-
-      //@Act
-      viewmodel.formModel.onLanguageChanged(language);
-
-      //@Assert
-      expect(viewmodel.formModel.request.language, language);
-    });
-
-    test('Test that isLanguageNameValid returns false is language is empty',
-        () {
-      //@Arrange
-      const language = '';
-      when(viewmodel.formModel.onLanguageChanged(language));
-
-      //@Act
-      viewmodel.formModel.onLanguageChanged(language);
-
-      //@Assert
-      expect(
-          viewmodel.formModel.isLanguageNameValid(displayError: false), false);
-    });
-
-    test('Test that isLanguageNameValid returns true is language is not empty',
-        () {
-      //@Arrange
-      const language = 'English';
-      when(viewmodel.formModel.onLanguageChanged(language));
-
-      //@Act
-      viewmodel.formModel.onLanguageChanged(language);
-
-      //@Assert
-      expect(
-          viewmodel.formModel.isLanguageNameValid(displayError: false), true);
-    });
-  });
   group('OnboardingFormModel {Firstname}:', () {
     test(
         'Test that value of firstname changes when onFirstNameChanged is called',
@@ -110,20 +58,6 @@ void main() {
 
       //@Assert
       expect(viewmodel.formModel.isFirstNameValid(displayError: false), false);
-    });
-
-    test('Test that isLanguageNameValid returns true is language is not empty',
-        () {
-      //@Arrange
-      const firstName = 'Joseph';
-      when(viewmodel.formModel.onLanguageChanged(firstName));
-
-      //@Act
-      viewmodel.formModel.onLanguageChanged(firstName);
-
-      //@Assert
-      expect(
-          viewmodel.formModel.isLanguageNameValid(displayError: false), true);
     });
   });
   group('OnboardingFormModel {Surname}:', () {
@@ -388,5 +322,9 @@ void main() {
         ]),
       );
     });
+  });
+
+  tearDownAll(() async {
+    viewmodel.dispose();
   });
 }

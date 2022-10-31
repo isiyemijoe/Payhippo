@@ -26,8 +26,13 @@ class $AssetsImagesGen {
   AssetGenImage get hippoLogoText =>
       const AssetGenImage('assets/images/hippo_logo_text.png');
 
+  /// File path: assets/images/launch_icon.png
+  AssetGenImage get launchIcon =>
+      const AssetGenImage('assets/images/launch_icon.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [hippoFullLogo, hippoLogo, hippoLogoText];
+  List<AssetGenImage> get values =>
+      [hippoFullLogo, hippoLogo, hippoLogoText, launchIcon];
 }
 
 class $AssetsVectorsGen {
@@ -76,6 +81,9 @@ class $AssetsVectorsGen {
   SvgGenImage get instantLoad =>
       const SvgGenImage('assets/vectors/instant_load.svg');
 
+  /// File path: assets/vectors/language.svg
+  SvgGenImage get language => const SvgGenImage('assets/vectors/language.svg');
+
   /// File path: assets/vectors/naira.svg
   SvgGenImage get naira => const SvgGenImage('assets/vectors/naira.svg');
 
@@ -101,6 +109,7 @@ class $AssetsVectorsGen {
         icUser,
         icWeb,
         instantLoad,
+        language,
         naira,
         noCollateral,
         seamlessProcess
